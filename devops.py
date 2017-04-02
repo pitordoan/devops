@@ -1,14 +1,35 @@
 #!/usr/bin/python
 
 import subprocess
+import sys
+import inspect
 
-def getDiskUsage():
+def get_disk_usage():
     cmd = 'df -h'
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     output = p.communicate()[0]
     availSpace = output.split('\n')[1].split()[3]
-
     return availSpace
 
-print getDiskUsage()
+def main():
+    if len(sys.argv) <= 1:
+        print "Please provide an argument"
+    else:
+        fset = [obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isfunction(obj)]
+        found = False
 
+        for f in fset:
+            if f.func_name == sys.argv[1]:
+                fn = f.func_name + "()"
+                result = eval(fn)
+                print result
+
+                found = True
+                break
+
+        if not found:
+            print "Invalid argument: " + sys.argv[1]
+
+#---------------- Main ----------------
+if __name__ == "__main__":
+    main()
