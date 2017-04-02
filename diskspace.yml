@@ -6,7 +6,7 @@
      copy: src=./devops.py dest=/home/devops/devops.py owner=devops group=devops mode=755
 
    - name: Get available disk space
-     command: ./devops.py
+     shell: ./devops.py get_disk_usage
      register: space
 
    - debug: var=space.stdout_lines
