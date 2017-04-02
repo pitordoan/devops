@@ -1,0 +1,15 @@
+---
+user_name: devops
+jenkins_url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+
+system_packages:
+   - build-essential
+   - git
+   - libevent-dev
+   - nginx
+   - python-dev
+   - python-setuptools
+   
+python_packages:
+   - pip
+   - virtualdev

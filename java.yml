@@ -1,0 +1,46 @@
+---
+
+#This Playbook downloads Java and unpacks it
+
+- hosts: jenkins
+  become: yes
+  become_user: root
+
+  vars:
+    download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+
+    download_folder: /home/devops
+    java_name: "{{download_folder}}/jdk1.8.0_112"
+    java_archive: "{{download_folder}}/jdk-8u112-linux-x64.tar.gz"
+
+  tasks:
+   - name: Download Java
+     get_url:
+        url: "{{ download_url }}"
+        dest: "{{ java_archive }}"
+        mode: 0440
+        headers: 'Cookie: oraclelicense=accept-securebackup-cookie'
+
+   - name: Unpack Java
+     unarchive:
+        src: "{{ java_archive }}"
+        dest: "{{ download_folder }}"
+        remote_src: True
+
+   - name: Fix ownership of the java folder
+     file: state=directory path={{java_name}} owner=devops group=devops recurse=yes
+
+   - name: Make Java available for system
+     file:
+        src: "{{ java_name }}/bin/java"
+        dest: /usr/bin/java
+        state: link
+
+   - name: Checking java version
+     shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+     register: java_ver
+
+   - debug: var=java_ver.stdout_lines
+
+   - name: Remove the Java downloaded package
+     file: state=absent path={{java_archive}}

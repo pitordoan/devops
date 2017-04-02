@@ -1,0 +1,3 @@
+[jenkins]
+docker-jenkins-slave01	ansible_host=20.10.10.110 ansible_port=22 ansible_user=devops
+docker-jenkins-slave02	ansible_host=20.10.10.112 ansible_port=22 ansible_user=devops

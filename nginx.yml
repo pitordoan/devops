@@ -1,0 +1,16 @@
+---
+
+#This Playbook installs Nginx and starts it
+
+- hosts: jenkins
+
+  tasks:
+   - name: Install Nginx
+     apt: pkg=nginx state=installed update_cache=true
+     notify:
+      - Start nginx
+
+  handlers:
+   - name: Start nginx
+     service: name=nginx state=started
+     
