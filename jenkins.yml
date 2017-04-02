@@ -1,36 +1,24 @@
 ---
--  hosts: jenkins-slave01
-   remote_user: devops
-   vars:
+
+#This Playbook downloads and installs Jenkins and Java.
+
+- hosts: jenkins
+  become: yes
+  become_user: root
+
+  vars:
       jenkins_url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-   gather_facts: False
-    
-   tasks:
+  gather_facts: False
+
+  tasks:
+   - name: Install Unzip
+     apt: name=unzip state=installed
+
    - name: Create jenkins directory
      file: path=~/jenkins state=directory owner=devops group=devops mode=0775
 
-   - name: Download and unpack Jenkins war file
+   - name: Download and unzip Jenkins war file
      unarchive:
          src: "{{jenkins_url}}"
          copy: no
          dest: ~/jenkins
-
-   - name: Install java 8 preresequesits
-     apt: name=python-software-properties
-     sudo: yes
-
-   - name: add repo for java 8
-     apt_repository: repo='ppa:webupd8team/java'
-     sudo: yes
-   
-   - name: set licence selected
-     shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-     sudo: yes
-
-   - name: set licence seen
-     shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
-     sudo: yes
-
-   - name: install java 8
-     apt: name=oracle-java8-installer state=latest update-cache=yes force=yes
-     sudo: yes
