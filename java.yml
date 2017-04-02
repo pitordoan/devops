@@ -8,7 +8,6 @@
 
   vars:
     download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
-
     download_folder: /home/devops
     java_name: "{{download_folder}}/jdk1.8.0_112"
     java_archive: "{{download_folder}}/jdk-8u112-linux-x64.tar.gz"
@@ -43,4 +42,4 @@
    - debug: var=java_ver.stdout_lines
 
    - name: Remove the Java downloaded package
-     file: state=absent path={{java_archive}}
+     file: state=absent path={{ java_archive }}
