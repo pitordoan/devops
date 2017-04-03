@@ -1,0 +1,20 @@
+---
+
+#This Playbook installs Docker
+
+- hosts: jenkins
+  become: yes
+  become_user: root
+
+  vars:
+      jenkins_url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+  gather_facts: False
+
+  tasks:
+   - name: System update
+     apt:
+        update_cache: yes
+
+  handlers:
+   - name: Start Docker
+     service: name=docker state=restarted

@@ -3,8 +3,6 @@
 #This Playbook downloads and installs Jenkins and Java.
 
 - hosts: jenkins
-  become: yes
-  become_user: root
 
   vars:
       jenkins_url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
@@ -17,8 +15,17 @@
    - name: Create jenkins directory
      file: path=~/jenkins state=directory owner=devops group=devops mode=0775
 
-   - name: Download and unzip Jenkins war file
+   - name: Download Jenkins
+     get_url:
+        url: "{{ jenkins_url }}"
+        dest: ~/jenkins.war
+        mode: 0440
+
+   - name: Unzip Jenkins war file
      unarchive:
-         src: "{{jenkins_url}}"
-         copy: no
+         src: ~/jenkins.war
          dest: ~/jenkins
+         remote_src: True
+
+   - name: Remove the Jenkins downloaded package
+     file: state=absent path=~/jenkins.war
