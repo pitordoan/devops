@@ -3,6 +3,8 @@
 #This Playbook installs Nginx and starts it
 
 - hosts: jenkins
+  become: yes
+  become_user: root
 
   tasks:
    - name: Install Nginx
