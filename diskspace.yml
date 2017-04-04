@@ -1,10 +1,19 @@
 ---
 - hosts: jenkins
+  vars:
+      min_disk_space: 2024 #in MB
 
   tasks:
    - name: Get available disk space
      script: ./devops.py get_disk_usage
      register: space
 
-   - debug: var=space.stdout_lines
-     
+   - debug: var=space.stdout.strip()
+
+   - set_fact:
+       avail_space: "{{ space.stdout.strip() }}"
+
+   - assert:
+       that:
+          - "{{ avail_space }} >= {{ min_disk_space }}"
+       msg: "The system is low in disk space. Expect {{ min_disk_space }} MB vs. actual {{ avail_space }} MB."

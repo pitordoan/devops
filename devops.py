@@ -5,11 +5,11 @@ import sys
 import inspect
 
 def get_disk_usage():
-    cmd = 'df -h'
+    cmd = 'df'
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     output = p.communicate()[0]
     availSpace = output.split('\n')[1].split()[3]
-    return availSpace
+    return int(int(availSpace.strip()) / 1024) #in MB
 
 def main():
     if len(sys.argv) <= 1:
