@@ -6,15 +6,34 @@
   become: yes
   become_user: root
 
-  vars:
-      jenkins_url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-  gather_facts: False
-
   tasks:
-   - name: System update
+   - name: Check Ubuntu version
+     shell: 'cat /etc/lsb-release | grep DISTRIB_RELEASE= | cut -d \= -f 2'
+     register: ubuntu_ver
+
+   - debug: var=ubuntu_ver.stdout
+
+   - assert:
+       that:
+          - "ubuntu_ver.stdout >= '16.04'"
+       msg: "Must be Ubuntu 16.04 or later"
+
+   - name: System update and upgrade
      apt:
+        upgrade: dist
         update_cache: yes
+     notify:
+      - Start docker
+
+   - name: Enable docker at system boot
+     command: 'systemctl enable docker'
+
+   - name: Check docker version
+     command: 'docker version'
+     register: docker_ver
+
+   - debug: var=docker_ver.stdout_lines
 
   handlers:
-   - name: Start Docker
-     service: name=docker state=restarted
+   - name: Start docker
+     service: name=docker state=started
