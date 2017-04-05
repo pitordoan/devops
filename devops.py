@@ -2,7 +2,8 @@
 
 import subprocess
 import sys
-import inspect
+import inspect, signal
+import os
 from subprocess import check_output
 
 #Returns available disk space
@@ -23,7 +24,16 @@ def get_free_mem():
 
 #Returns an array of PIDs that their names match process_name
 def get_pid(process_name):
-    return map(int, check_output(["pidof", process_name]).split())
+    try:
+        return map(int, check_output(["pidof", process_name]).split())
+    except:
+        return []
+
+#Kills processes by name
+def kill_process(process_name):
+    pids = get_pid(process_name)
+    for pid in pids:
+        os.kill(pid, signal.SIGKILL)
 
 def main():
     if len(sys.argv) <= 1:

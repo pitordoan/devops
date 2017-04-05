@@ -19,6 +19,9 @@
   gather_facts: False
 
   tasks:
+    - name: Kill any running Jenkins process if any
+      script: ./devops.py kill_process\('jenkins.sh'\)
+
     - name: Download Jenkins
       get_url:
           url: "{{ jenkins_url }}"
