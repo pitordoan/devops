@@ -5,7 +5,7 @@
 
   tasks:
    - name: Get available disk space
-     script: ./devops.py get_disk_usage
+     script: ./devops.py get_avail_disk_space
      register: space
 
    - debug: var=space.stdout.strip()
