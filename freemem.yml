@@ -1,0 +1,19 @@
+---
+- hosts: jenkins
+  vars:
+      min_free_mem: 2024 #in MB
+
+  tasks:
+   - name: Get free memory
+     script: ./devops.py get_free_mem
+     register: free_mem
+
+   - debug: var=free_mem.stdout.strip()
+
+   - set_fact:
+       free_mb: "{{ free_mem.stdout.strip() }}"
+
+   - assert:
+       that:
+          - "{{ free_mb }} >= {{ min_free_mem }}"
+       msg: "The system is low in memory. Expect {{ min_free_mem }} MB vs. actual {{ free_mb }} MB."
