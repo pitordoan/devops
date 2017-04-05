@@ -4,12 +4,19 @@ import subprocess
 import sys
 import inspect
 
-def get_disk_usage():
+def get_avail_disk_space():
     cmd = 'df'
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     output = p.communicate()[0]
-    availSpace = output.split('\n')[1].split()[3]
-    return int(int(availSpace.strip()) / 1024) #in MB
+    avail_space = output.split('\n')[1].split()[3]
+    return int(int(avail_space.strip()) / 1024) #in MB
+
+def get_free_mem():
+    cmd = 'free'
+    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+    output = p.communicate()[0]
+    free_mem = output.split('\n')[1].split()[3]
+    return int(int(free_mem.strip()) / 1024)  # in MB
 
 def main():
     if len(sys.argv) <= 1:
