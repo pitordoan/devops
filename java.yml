@@ -7,10 +7,12 @@
   become_user: root
 
   vars:
-    download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
-    download_folder: /home/devops
-    java_name: "{{download_folder}}/jdk1.8.0_112"
-    java_archive: "{{download_folder}}/jdk-8u112-linux-x64.tar.gz"
+      user: devops
+      group: devops
+      download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+      download_folder: /home/{{ user }}
+      java_name: "{{download_folder}}/jdk1.8.0_112"
+      java_archive: "{{download_folder}}/jdk-8u112-linux-x64.tar.gz"
 
   tasks:
    - name: Download Java
@@ -27,7 +29,7 @@
         remote_src: True
 
    - name: Fix ownership of the java folder
-     file: state=directory path={{java_name}} owner=devops group=devops recurse=yes
+     file: state=directory path={{java_name}} owner={{ user }} group={{ group }} recurse=yes
 
    - name: Make Java available for system
      file:
