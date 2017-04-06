@@ -38,6 +38,7 @@ def kill_process(process_name):
     for pid in pids:
         os.kill(pid, signal.SIGKILL)
 
+#Configures app-settings.xml with keys/values coming from config.properties and processor file config.xml
 def configure(conf, processor, dest):
     conf_map = dict([(row[0], row[1]) for row in csv.reader(open(conf, 'r'), delimiter='=')])
 
@@ -60,16 +61,7 @@ def configure(conf, processor, dest):
 
     dest_tree.write(dest, 'utf8')
 
-def replace_variables(dict, text):
-    for key, value in dict.items():
-        while True:
-            t = text.replace('${' + key + '}', value)
-            if t == text:
-                break
-            else:
-                text = t
-    return text
-
+#---------------- Main ----------------
 def main():
     if len(sys.argv) <= 1:
         print "Please provide an argument"
@@ -95,6 +87,5 @@ def main():
         if not found:
             print "Invalid argument: " + sys.argv[1]
 
-#---------------- Main ----------------
 if __name__ == "__main__":
     main()
