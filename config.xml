@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<processor>
+    <setting path="app" attribute="name" key="app.name" />
+    <setting path="app" attribute="version" key="app.version" />
+    <setting path="app/module1" attribute="name" key="module1.name" />
+    <setting path="app/module1" attribute="version" key="module1.version" />
+    <setting path="app/module2" attribute="name" key="module2.name" />
+    <setting path="app/module2" attribute="version" key="module2.version" />
+</processor>

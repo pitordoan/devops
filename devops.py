@@ -4,6 +4,9 @@ import subprocess
 import sys
 import inspect, signal
 import os
+import csv
+import re
+import xml.etree.ElementTree as ET
 from subprocess import check_output
 
 #Returns available disk space
@@ -34,6 +37,38 @@ def kill_process(process_name):
     pids = get_pid(process_name)
     for pid in pids:
         os.kill(pid, signal.SIGKILL)
+
+def configure(conf, processor, dest):
+    conf_map = dict([(row[0], row[1]) for row in csv.reader(open(conf, 'r'), delimiter='=')])
+
+    tree = ET.parse(processor)
+    root = tree.getroot()
+    settings = root.findall('setting')
+
+    dest_tree = ET.parse(dest)
+    dest_root = dest_tree.getroot()
+
+    for setting in settings:
+        path = setting.attrib.get('path')
+        attribute = setting.attrib.get('attribute')
+        key = setting.attrib.get('key')
+
+        elements = dest_root.findall(path)
+        for ele in elements:
+            value = conf_map[key]
+            ele.set(attribute, value)
+
+    dest_tree.write(dest, 'utf8')
+
+def replace_variables(dict, text):
+    for key, value in dict.items():
+        while True:
+            t = text.replace('${' + key + '}', value)
+            if t == text:
+                break
+            else:
+                text = t
+    return text
 
 def main():
     if len(sys.argv) <= 1:
