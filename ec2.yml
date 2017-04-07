@@ -11,7 +11,6 @@
   vars:
       user: devops
       group: devops
-      key_name: aws_key
       instance_type: t2.micro
       security_group: test
       image: ami-8ca83fec
@@ -53,7 +52,7 @@
      register: aws_config_exist
 
    - fail:
-        msg: "/home/{{ user }}/.aws/config doesn't exist."
+        msg: "/home/{{ user }}/.aws/config doesn't exist. Please run 'aws configure'"
      when: aws_config_exist.stat.exists == False
 
    - name: Make sure /home/{{ user }}/.aws/credentials exists
@@ -62,7 +61,7 @@
      register: aws_credentials_exist
 
    - fail:
-        msg: "/home/{{ user }}/.aws/credentials doesn't exist."
+        msg: "/home/{{ user }}/.aws/credentials doesn't exist. Please run 'aws configure'"
      when: aws_credentials_exist.stat.exists == False
 
    - name: Create EC2 instance
@@ -71,7 +70,15 @@
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
         wait: true
+        wait_timeout: 500
         region: "{{ region }}"
         vpc_subnet_id: "{{ vpc_subnet_id }}"
         assign_public_ip: yes
+        monitoring: yes
+        instance_tags:
+          Name: ec2-jenkins-slave
+        volumes:
+          - device_name: /dev/xvda
+            volume_size: 10
+            delete_on_termination: true
      register: ec2
