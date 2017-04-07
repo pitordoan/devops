@@ -1,5 +1,7 @@
 ---
-- hosts: jenkins
+
+- name: Get free memory
+  hosts: jenkins
   vars:
       min_free_mem: 2024 #in MB
 

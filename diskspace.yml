@@ -1,5 +1,6 @@
 ---
-- hosts: jenkins
+- name: Get free disk space
+  hosts: jenkins
   vars:
       min_disk_space: 2024 #in MB
 

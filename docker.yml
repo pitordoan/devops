@@ -2,7 +2,8 @@
 
 #This Playbook installs Docker
 
-- hosts: jenkins
+- name: Install Docker
+  hosts: jenkins
   become: yes
   become_user: root
 

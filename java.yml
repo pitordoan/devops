@@ -2,7 +2,8 @@
 
 #This Playbook downloads Java and unpacks it
 
-- hosts: jenkins
+- name: Install Java JDK
+  hosts: jenkins
   become: yes
   become_user: root
 
