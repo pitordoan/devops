@@ -1,0 +1,77 @@
+---
+
+#This Playbook creates a new EC2 instance
+
+- name: Launch EC2
+  hosts: localhost
+  connection: local
+
+  gather_facts: False
+
+  vars:
+      user: devops
+      group: devops
+      key_name: aws_key
+      instance_type: t2.micro
+      security_group: test
+      image: ami-8ca83fec
+      region: us-west-2
+      vpc_subnet_id: subnet-399e1370
+
+  tasks:
+   - name: System update and upgrade
+     become: yes
+     become_user: root
+     apt:
+        upgrade: dist
+        update_cache: yes
+
+   - name: Install Python PIP
+     become: yes
+     become_user: root
+     apt:
+        pkg: python-pip
+        state: latest
+
+   - name: Install boto via PIP
+     become: yes
+     become_user: root
+     pip:
+        name: boto
+        state: latest
+
+   - name: Install AWS CLI
+     become: yes
+     become_user: root
+     pip:
+        name: awscli
+        state: latest
+
+   - name: Make sure /home/{{ user }}/.aws/config exists
+     stat:
+        path: "/home/{{ user }}/.aws/config"
+     register: aws_config_exist
+
+   - fail:
+        msg: "/home/{{ user }}/.aws/config doesn't exist."
+     when: aws_config_exist.stat.exists == False
+
+   - name: Make sure /home/{{ user }}/.aws/credentials exists
+     stat:
+        path: "/home/{{ user }}/.aws/credentials"
+     register: aws_credentials_exist
+
+   - fail:
+        msg: "/home/{{ user }}/.aws/credentials doesn't exist."
+     when: aws_credentials_exist.stat.exists == False
+
+   - name: Create EC2 instance
+     ec2:
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        assign_public_ip: yes
+     register: ec2
