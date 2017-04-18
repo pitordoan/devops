@@ -76,8 +76,8 @@ def main():
 
     if len(sys.argv) <= 1:
         print "Usage: devops.py <argument>"
-        print "Available arguments:"
-        print available_args
+        print "\nAvailable arguments:"
+        print "\n".join(available_args)
     else:
         found = False
 
