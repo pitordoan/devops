@@ -19,7 +19,7 @@
   gather_facts: False
 
   tasks:
-    - name: Kill any running Jenkins process if any
+    - name: Kill running Jenkins process if any
       script: ./devops.py "kill_process('jenkins.sh')"
 
     - name: Download Jenkins
