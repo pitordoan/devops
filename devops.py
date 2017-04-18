@@ -61,15 +61,27 @@ def configure(conf, processor, dest):
 
     dest_tree.write(dest, 'utf8')
 
+#Gets available arguments (none private functions in this file)
+def __get_available_arguments():
+    fset = [obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isfunction(obj)]
+    func_names = []
+    for f in fset:
+        if not (f.func_name.startswith('__') or f.func_name == 'check_output' or f.func_name == 'main'):
+            func_names.append(f.func_name)
+    return func_names
+
 #---------------- Main ----------------
 def main():
+    available_args = __get_available_arguments()
+
     if len(sys.argv) <= 1:
-        print "Please provide an argument"
+        print "Usage: devops.py <argument>"
+        print "Available arguments:"
+        print available_args
     else:
-        fset = [obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isfunction(obj)]
         found = False
 
-        for f in fset:
+        for argument in available_args:
             fn_call = sys.argv[1]
             if "(" in fn_call:
                 p = fn_call.index("(")
@@ -77,8 +89,8 @@ def main():
                 p = len(fn_call)
                 fn_call = fn_call + "()"
 
-            fn_name = fn_call[0:p]
-            if f.func_name == fn_name:
+            arg = fn_call[0:p]
+            if argument == arg:
                 result = eval(fn_call)
                 print result
                 found = True
