@@ -4,8 +4,6 @@
 
 - name: Check linux kernal version of CentOS 7 and Ubuntu 16 systems
   hosts: jenkins
-  become: yes
-  become_user: root
 
   tasks:
     - name: "Check linux kernal version of CentOS 7 and Ubuntu 16 systems"
