@@ -1,0 +1,17 @@
+---
+
+#This Playbook checks linux kernal version of all CentOS 7 and Ubuntu 16 systems
+
+- name: Check linux kernal version of CentOS 7 and Ubuntu 16 systems
+  hosts: jenkins
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: "Check linux kernal version of CentOS 7 and Ubuntu 16 systems"
+      command: uname -r
+      when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
+            (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
+      register: uname
+
+    - debug: msg="{{ uname.stdout }}"
