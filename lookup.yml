@@ -1,0 +1,16 @@
+---
+
+#This Playbook looks up variables configured in a properties file
+
+- name: Demo of lookup
+  hosts: jenkins
+  vars:
+      app_name: "{{ lookup('ini', 'app.name type=properties file=config.properties') }}"
+      app_version: "{{ lookup('ini', 'app.version type=properties file=config.properties') }}"
+
+  tasks:
+    - debug:
+        msg: "{{ app_name }}"
+
+    - debug:
+        msg: "{{ app_version }}"

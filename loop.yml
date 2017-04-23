@@ -1,0 +1,14 @@
+---
+
+#This Playbook shows how to use items
+
+- name: Demo how to use items
+  hosts: jenkins
+
+  tasks:
+    - name: "Demo of items"
+      command: "echo {{ item }}"
+      with_items:
+        - one
+        - two
+        - three

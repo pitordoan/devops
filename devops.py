@@ -61,6 +61,19 @@ def configure(conf, processor, dest):
 
     dest_tree.write(dest, 'utf8')
 
+#Loads a properties file and returns its content as a dictionary
+def properties_to_dict(prop_file):
+    dict = {}
+    with open(prop_file, 'r') as f:
+        for line in f:
+            line = line.rstrip()
+            if "=" not in line: continue
+            if line.startswith("#"): continue
+
+            k, v = line.split("=", 1)
+            dict[k] = v
+    return dict
+
 #Gets available arguments (none private functions in this file)
 def __get_available_arguments():
     fset = [obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isfunction(obj)]
