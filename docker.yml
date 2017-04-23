@@ -31,17 +31,14 @@
      apt:
         name: docker.io
         state: latest
-     notify:
-      - Start docker
 
-   - name: Correct file permission to allow user {{ user }} to run docker
-     file:
-        path: /var/run/docker.sock
-        owner: "{{ user }}"
-        group: "{{ user }}"
+   - name: Add the user to the docker user group
+     user: name="{{ user }}" groups=docker append=yes
 
    - name: Enable docker at system boot
      command: 'systemctl enable docker'
+     notify:
+        - Start docker
 
    - name: Check docker version
      command: 'docker version'
