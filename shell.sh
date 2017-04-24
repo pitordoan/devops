@@ -37,6 +37,13 @@ echo "Key = $key"
 echo "Value = $value"
 echo ""
 
+#Get substring
+echo "----- get substring -----"
+s="Hello, how are you?"
+how=$(echo $s | cut -b 7-10)
+echo $how
+echo ""
+
 #Read and print each line of a file
 echo "----- read a file and display its content -----"
 while read line; do
@@ -74,9 +81,20 @@ for (( i=0; i<${#arr[*]}; i++ )); do
 done
 echo ""
 
+#While loop
 echo "----- while loop thru element index in array -----"
 i=0
 while (( i < ${#arr[*]} )); do
     echo "${arr[i]}"
     i=$(($i + 1))
 done
+
+#Check if a file exists
+echo "----- check if a file exists -----"
+if [ -f "config.properties" ]; then
+    echo "Found config.properties"
+else
+    echo "Couldn't find config.properties"
+fi
+echo ""
+
