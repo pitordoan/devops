@@ -72,3 +72,11 @@ echo "----- for loop thru element index in array -----"
 for (( i=0; i<${#arr[*]}; i++ )); do
     echo "${arr[i]}"
 done
+echo ""
+
+echo "----- while loop thru element index in array -----"
+i=0
+while (( i < ${#arr[*]} )); do
+    echo "${arr[i]}"
+    i=$(($i + 1))
+done
