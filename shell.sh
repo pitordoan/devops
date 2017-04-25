@@ -41,7 +41,9 @@ echo ""
 echo "----- get substring -----"
 s="Hello, how are you?"
 how=$(echo $s | cut -b 7-10)
+are=${s:11:3}
 echo $how
+echo $are
 echo ""
 
 #Read and print each line of a file
