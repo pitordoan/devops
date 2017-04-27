@@ -39,7 +39,7 @@ def _set_xml_elements_text(xml_file_name, tag, text):
     for node in nodes:
         node.text = text
 
-    tree.write(xml_file_name + '_new', 'utf8')
+    tree.write(xml_file_name, 'utf8')
 
 #Gets java versions used in maven projects under directory mvn_project_dir
 def get_java_versions(mvn_project_dir):
