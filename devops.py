@@ -8,6 +8,7 @@ import csv
 import re
 import xml.etree.ElementTree as ET
 from subprocess import check_output
+from os import walk
 
 #Returns available disk space
 def get_avail_disk_space():
@@ -83,8 +84,20 @@ def __get_available_arguments():
             func_names.append(f.func_name)
     return func_names
 
+def get_java_versions(mvn_project_dir):
+    f = []
+    for (rootdir, dirnames, filenames) in walk(mvn_project_dir):
+        if not root.startswith(mvn_project_dir + '/.'):
+            for fn in filenames:
+                ext = os.path.splittext(fn)
+            root = ET.fromstring(xml)
+
+    #root = ET.fromstring()
+
 #---------------- Main ----------------
 def main():
+    get_java_versions('.')
+
     available_args = __get_available_arguments()
 
     if len(sys.argv) <= 1:
