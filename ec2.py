@@ -71,8 +71,8 @@ def create_ec2_instance(tag_name, image_id, security_group_id, subnet_id, volume
 
 #----------- main -----------
 if __name__ == "__main__":
-    instance = create_ec2_instance(tag_name='app01', image_id='8ca83fec',
-                                   security_group_id='3640824d', subnet_id='subnet-399e1370',
+    instance = create_ec2_instance(tag_name='app01', image_id='ami-4836a428',
+                                   security_group_id='sg-3640824d', subnet_id='subnet-399e1370',
                                    volume_size=20, userdata_file='ec2_userdata.sh')
 
     print str(datetime.now()) + ' - Instance created, private IP: ' + instance.private_ip_address
