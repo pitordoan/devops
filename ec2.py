@@ -6,7 +6,7 @@
 import boto3
 from datetime import datetime
 
-def create_ec2_instance(tag_name, volume_size, userdata_file=None, sync=True):
+def create_ec2_instance(tag_name, image_id, security_group_id, subnet_id, volume_size, userdata_file=None, sync=True):
     userdata = ''
 
     if userdata_file:
@@ -17,11 +17,11 @@ def create_ec2_instance(tag_name, volume_size, userdata_file=None, sync=True):
 
     response = client.run_instances(
         DryRun=False,
-        ImageId='ami-8ca83fec',
+        ImageId=image_id,
         MinCount=1,
         MaxCount=1,
         SecurityGroupIds=[
-            'sg-3640824d',
+            security_group_id,
         ],
         UserData=userdata,
         InstanceType='t2.micro',
@@ -36,7 +36,7 @@ def create_ec2_instance(tag_name, volume_size, userdata_file=None, sync=True):
         Monitoring={
             'Enabled': True
         },
-        SubnetId='subnet-399e1370',
+        SubnetId=subnet_id,
         DisableApiTermination=False,
         InstanceInitiatedShutdownBehavior='stop',
         TagSpecifications=[
@@ -71,5 +71,8 @@ def create_ec2_instance(tag_name, volume_size, userdata_file=None, sync=True):
 
 #----------- main -----------
 if __name__ == "__main__":
-    instance = create_ec2_instance(tag_name='app01', volume_size=20, userdata_file='ec2_userdata.sh')
+    instance = create_ec2_instance(tag_name='app01', image_id='8ca83fec',
+                                   security_group_id='3640824d', subnet_id='subnet-399e1370',
+                                   volume_size=20, userdata_file='ec2_userdata.sh')
+
     print str(datetime.now()) + ' - Instance created, private IP: ' + instance.private_ip_address
