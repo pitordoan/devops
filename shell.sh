@@ -100,3 +100,12 @@ else
 fi
 echo ""
 
+#Check if a directory exists
+echo "----- check if a directory exists -----"
+if [ -d "maven-project" ]; then
+    echo "Found directory maven-project"
+else
+    echo "Couldn't find directory maven-project"
+fi
+echo ""
+
