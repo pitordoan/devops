@@ -9,7 +9,7 @@ from os import walk
 from sets import Set
 
 #Gets xml elements by tag name
-def _get_xml_elements(xml_file_name, tag):
+def __get_xml_elements(xml_file_name, tag):
     tree = ET.parse(xml_file_name)
     root = tree.getroot()
     nodes = []
@@ -24,7 +24,7 @@ def _get_xml_elements(xml_file_name, tag):
     return nodes
 
 #Sets text of xml elements by tag name
-def _set_xml_elements_text(xml_file_name, tag, text):
+def __set_xml_elements_text(xml_file_name, tag, text):
     tree = ET.parse(xml_file_name)
     root = tree.getroot()
     nodes = []
@@ -53,7 +53,7 @@ def get_java_versions(mvn_project_dir):
                     version_set = set()
 
                     path = os.path.join(rootdir, fn)
-                    ver_elements = _get_xml_elements(path, 'javaVersion')
+                    ver_elements = __get_xml_elements(path, 'javaVersion')
 
                     for ele in ver_elements:
                         version = ele.text
@@ -71,7 +71,7 @@ def set_java_version(mvn_project_dir, new_java_ver):
             for fn in filenames:
                 if fn == 'pom.xml':
                     path = os.path.join(rootdir, fn)
-                    _set_xml_elements_text(path, 'javaVersion', new_java_ver)
+                    __set_xml_elements_text(path, 'javaVersion', new_java_ver)
 
 if __name__ == "__main__":
     java_versions = get_java_versions('./maven-project')
