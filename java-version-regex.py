@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from sets import Set
 from os import walk
 
@@ -17,10 +18,9 @@ def get_java_versions(mvn_project_dir):
                     path = os.path.join(rootdir, fn)
                     with open(path, 'r') as f:
                         for line in f:
-                            if line.find('<javaVersion>') >= 0:
-                                p = line.find('>')
-                                q = line.find('</')
-                                version = line[p + 1:q]
+                            match = re.search('<javaVersion>(.*?)</javaVersion>', line, re.S)
+                            if match:
+                                version = match.group(1)
                                 version_set.add(version)
 
                     key = os.path.basename(rootdir)
@@ -39,10 +39,9 @@ def set_java_version(mvn_project_dir, new_java_ver):
                     path = os.path.join(rootdir, fn)
                     with open(path, 'r+') as f:
                         for line in f:
-                            if line.find('<javaVersion>') >= 0:
-                                p = line.find('>')
-                                q = line.find('</')
-                                version = line[p + 1:q]
+                            match = re.search('<javaVersion>(.*?)</javaVersion>', line, re.S)
+                            if match:
+                                version = match.group(1)
                                 line = line.replace(version, new_java_ver)
                                 lines.append(line)
                             else:
