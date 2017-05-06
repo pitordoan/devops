@@ -37,30 +37,30 @@ def pre_order_print(root):
 def binary_search_smallest(root):
     node = Node(0)
 
-    def __binary_search_smallest_recursive(root, node):
+    def binary_search_smallest_recursive(root, node):
         if root == None:
             return node.data
         else:
             if root.data > node.data:
-                return __binary_search_smallest_recursive(root.l_child, root)
+                return binary_search_smallest_recursive(root.l_child, root)
             else:
-                return __binary_search_smallest_recursive(root.r_child, root)
+                return binary_search_smallest_recursive(root.r_child, root)
 
-    return __binary_search_smallest_recursive(root, node)
+    return binary_search_smallest_recursive(root, node)
 
 def binary_search_largest(root):
     node = Node(0)
 
-    def __binary_search_smallest_recursive(root, node):
+    def binary_search_smallest_recursive(root, node):
         if root == None:
             return node.data
         else:
             if root.data < node.data:
-                return __binary_search_smallest_recursive(root.l_child, root)
+                return binary_search_smallest_recursive(root.l_child, root)
             else:
-                return __binary_search_smallest_recursive(root.r_child, root)
+                return binary_search_smallest_recursive(root.r_child, root)
 
-    return __binary_search_smallest_recursive(root, node)
+    return binary_search_smallest_recursive(root, node)
 
 r = Node(3)
 binary_insert(r, Node(7))
