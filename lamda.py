@@ -1,11 +1,11 @@
 
-def make_incrementor(n):
+def increment(n):
     return lambda x: x + n
 
-increment2 = make_incrementor(2)
+increment2 = increment(2)
 print increment2(5)
 
-increment3 = make_incrementor(3)
+increment3 = increment(3)
 print increment3(5)
 
 
