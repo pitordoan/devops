@@ -35,27 +35,21 @@ def pre_order_print(root):
     pre_order_print(root.l_child)
     pre_order_print(root.r_child)
 
-def get_min_node(root):
-    def get_min_node_recurse(node):
-        if node == None or node.r_child == None:
-            return node
+def get_min_node(node):
+    if node == None or node.l_child == None:
+        return node
 
-        next_node = node.l_child
-        next_node.parent = node
-        return get_min_node_recurse(next_node)
+    next_node = node.l_child
+    next_node.parent = node
+    return get_min_node(next_node)
 
-    return get_min_node_recurse(root)
+def get_max_node(node):
+    if node == None or node.r_child == None:
+        return node
 
-def get_max_node(root):
-    def get_max_node_recurse(node):
-        if node == None or node.r_child == None:
-            return node
-
-        next_node = node.r_child
-        next_node.parent = node
-        return get_max_node_recurse(next_node)
-
-    return get_max_node_recurse(root)
+    next_node = node.r_child
+    next_node.parent = node
+    return get_max_node(next_node)
 
 def get_second_max_node(root):
     max_node = get_max_node(root)
