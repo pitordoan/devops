@@ -1,6 +1,7 @@
 
 class Node:
     def __init__(self, val):
+        self.parent = None
         self.l_child = None
         self.r_child = None
         self.data = val
@@ -50,17 +51,40 @@ def binary_search_smallest(root):
 
 def binary_search_largest(root):
     node = Node(0)
+    node.root = root
 
-    def binary_search_smallest_recursive(root, node):
+    def binary_search_largest_recursive(root, node):
         if root == None:
             return node.data
         else:
             if root.data < node.data:
-                return binary_search_smallest_recursive(root.l_child, root)
-            else:
-                return binary_search_smallest_recursive(root.r_child, root)
 
-    return binary_search_smallest_recursive(root, node)
+                return binary_search_largest_recursive(root.l_child, root)
+            else:
+                return binary_search_largest_recursive(root.r_child, root)
+
+    return binary_search_largest_recursive(root, node)
+
+
+def binary_search_second_largest(root):
+    parent_node = None
+
+    def binary_search_largest_recursive(node, parent_node):
+        if node == None:
+            return parent_node
+        else:
+            if parent_node == None or node.data > parent_node.data:
+                node.parent = parent_node
+                return binary_search_largest_recursive(node.r_child, node)
+            else:
+                node.parent = parent_node
+                return binary_search_largest_recursive(node.l_child, node)
+
+    max_node = binary_search_largest_recursive(root, parent_node)
+    if max_node == root or max_node.l_child != None:
+        return binary_search_largest_recursive(max_node.l_child, max_node).data
+    else:
+        return max_node.parent.data
 
 r = Node(3)
 binary_insert(r, Node(7))
@@ -80,3 +104,6 @@ print binary_search_smallest(r)
 
 print "\nFind largest:"
 print binary_search_largest(r)
+
+print "\nFind second largest:"
+print binary_search_second_largest(r)
