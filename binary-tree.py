@@ -22,21 +22,21 @@ def binary_insert(root, node):
                 binary_insert(root.r_child, node)
 
 def in_order_print(root):
-    if not root:
+    if root is None:
         return
     in_order_print(root.l_child)
     print root.data
     in_order_print(root.r_child)
 
 def pre_order_print(root):
-    if not root:
+    if root is None:
         return
     print root.data
     pre_order_print(root.l_child)
     pre_order_print(root.r_child)
 
 def get_min_node(node):
-    if node == None or node.l_child == None:
+    if node is None or node.l_child is None:
         return node
 
     next_node = node.l_child
@@ -44,7 +44,7 @@ def get_min_node(node):
     return get_min_node(next_node)
 
 def get_max_node(node):
-    if node == None or node.r_child == None:
+    if node is None or node.r_child is None:
         return node
 
     next_node = node.r_child
@@ -54,9 +54,9 @@ def get_max_node(node):
 def get_second_max_node(root):
     max_node = get_max_node(root)
 
-    if max_node == root and max_node.l_child == None:
+    if max_node == root and max_node.l_child is None:
         return max_node
-    elif max_node.l_child != None:
+    elif max_node.l_child is not None:
         return get_second_max_node(max_node.l_child)
 
     return max_node.parent
