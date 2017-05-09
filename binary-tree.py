@@ -35,56 +35,37 @@ def pre_order_print(root):
     pre_order_print(root.l_child)
     pre_order_print(root.r_child)
 
-def binary_search_smallest(root):
-    node = Node(0)
+def get_min_node(root):
+    def get_min_node_recurse(node):
+        if node == None or node.r_child == None:
+            return node
 
-    def binary_search_smallest_recursive(root, node):
-        if root == None:
-            return node.data
-        else:
-            if root.data > node.data:
-                return binary_search_smallest_recursive(root.l_child, root)
-            else:
-                return binary_search_smallest_recursive(root.r_child, root)
+        next_node = node.l_child
+        next_node.parent = node
+        return get_min_node_recurse(next_node)
 
-    return binary_search_smallest_recursive(root, node)
+    return get_min_node_recurse(root)
 
-def binary_search_largest(root):
-    node = Node(0)
-    node.root = root
+def get_max_node(root):
+    def get_max_node_recurse(node):
+        if node == None or node.r_child == None:
+            return node
 
-    def binary_search_largest_recursive(root, node):
-        if root == None:
-            return node.data
-        else:
-            if root.data < node.data:
+        next_node = node.r_child
+        next_node.parent = node
+        return get_max_node_recurse(next_node)
 
-                return binary_search_largest_recursive(root.l_child, root)
-            else:
-                return binary_search_largest_recursive(root.r_child, root)
+    return get_max_node_recurse(root)
 
-    return binary_search_largest_recursive(root, node)
+def get_second_max_node(root):
+    max_node = get_max_node(root)
 
+    if max_node == root and max_node.l_child == None:
+        return max_node
+    elif max_node.l_child != None:
+        return get_second_max_node(max_node.l_child)
 
-def binary_search_second_largest(root):
-    parent_node = None
-
-    def binary_search_largest_recursive(node, parent_node):
-        if node == None:
-            return parent_node
-        else:
-            if parent_node == None or node.data > parent_node.data:
-                node.parent = parent_node
-                return binary_search_largest_recursive(node.r_child, node)
-            else:
-                node.parent = parent_node
-                return binary_search_largest_recursive(node.l_child, node)
-
-    max_node = binary_search_largest_recursive(root, parent_node)
-    if max_node == root or max_node.l_child != None:
-        return binary_search_largest_recursive(max_node.l_child, max_node).data
-    else:
-        return max_node.parent.data
+    return max_node.parent
 
 r = Node(3)
 binary_insert(r, Node(7))
@@ -100,10 +81,10 @@ print "\nPre order:"
 pre_order_print(r)
 
 print "\nFind smallest:"
-print binary_search_smallest(r)
+print get_min_node(r).data
 
 print "\nFind largest:"
-print binary_search_largest(r)
+print get_max_node(r).data
 
 print "\nFind second largest:"
-print binary_search_second_largest(r)
+print get_second_max_node(r).data
