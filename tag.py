@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 def tags(tag_name):
     def tags_decorator(func):
         def func_wrapper(name):

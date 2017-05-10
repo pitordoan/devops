@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import math
 
 def is_prime(number):

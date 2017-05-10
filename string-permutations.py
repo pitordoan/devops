@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from sets import Set
 
 def find_permutation(string):
